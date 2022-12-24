@@ -5,6 +5,8 @@ services:
     image: nextcloud:25.0.2
     container_name: nextcloud
     restart: unless-stopped
+    links:
+      - mariadb
     volumes:
       - ./data/nextcloud:/var/www/html
     ports:
