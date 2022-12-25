@@ -18,7 +18,7 @@ services:
       - 8081:80
     environment:
       - NEXTCLOUD_DATA_DIR=/var/www/html/data
-  
+      - OVERWRITEPROTOCOL=https
   mariadb:
     image: mariadb:10.9.4
     container_name: mariadb
