@@ -30,3 +30,9 @@ services:
       - MYSQL_PASSWORD=${ENV_MYSQL_PASS}
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
+
+  cloudflared:
+      image: cloudflare/cloudflared:2022.12.1-amd64
+      container_name: cloudflared-use-vaultwarden
+      restart: unless-stopped
+      command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
