@@ -13,15 +13,18 @@ services:
       - mariadb
     volumes:
       - nextcloud:/var/www/html
+      - ${PATH_NEXTCLOUD}:/var/www/html/data
     ports:
       - 8081:80
+    environment:
+      - NEXTCLOUD_DATA_DIR=/var/www/html/data
   
   mariadb:
     image: mariadb:10.9.4
     container_name: mariadb
     restart: unless-stopped
     volumes:
-      - mariadb:/var/lib/mysql
+      - ${PATH_MARIADB}:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${ENV_MYSQL_ROOT_PASS}
       - MYSQL_PASSWORD=${ENV_MYSQL_PASS}
