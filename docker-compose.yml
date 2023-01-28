@@ -1,8 +1,6 @@
 version: '3'
 
-volumes:
-  nextcloud:
-  mariadb:
+
 
 services:
   nextcloud:
@@ -12,13 +10,16 @@ services:
     links:
       - mariadb
     volumes:
-      - nextcloud:/var/www/html
+      - ${PATH_NEXTCLOUD_CONFIG}:/var/www/html
       - ${PATH_NEXTCLOUD}:/var/www/html/data
     ports:
       - 8081:80
     environment:
-      - NEXTCLOUD_DATA_DIR=/var/www/html/data
+      - NEXTCLOUD_DATA_DIR=/var/www/html/data 
+      - OVERWRITEHOST=${OVERWRITEHOST}
       - OVERWRITEPROTOCOL=https
+
+    hostname: ${HOST_NAME}
   mariadb:
     image: mariadb:10.10.2
     container_name: mariadb
@@ -32,7 +33,7 @@ services:
       - MYSQL_USER=nextcloud
 
   cloudflared:
-      image: cloudflare/cloudflared:2022.12.1-amd64
-      container_name: cloudflared-use-nextcloud
-      restart: unless-stopped
-      command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    image: cloudflare/cloudflared:2022.12.1-amd64
+    container_name: cloudflared-use-nextcloud
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
