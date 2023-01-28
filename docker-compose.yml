@@ -1,24 +1,25 @@
 version: '3'
 
-volumes:
-  nextcloud:
-  mariadb:
+
 
 services:
   nextcloud:
-    image: nextcloud:25.0.2
+    image: nextcloud:25.0.3
     container_name: nextcloud
     restart: unless-stopped
     links:
       - mariadb
     volumes:
-      - nextcloud:/var/www/html
+      - ${PATH_NEXTCLOUD_CONFIG}:/var/www/html
       - ${PATH_NEXTCLOUD}:/var/www/html/data
     ports:
       - 8081:80
     environment:
-      - NEXTCLOUD_DATA_DIR=/var/www/html/data
+      - NEXTCLOUD_DATA_DIR=/var/www/html/data 
+      - OVERWRITEHOST=${OVERWRITEHOST}
       - OVERWRITEPROTOCOL=https
+
+    hostname: ${HOST_NAME}
   mariadb:
     image: mariadb:10.10.2
     container_name: mariadb
