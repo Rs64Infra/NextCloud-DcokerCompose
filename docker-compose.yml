@@ -10,8 +10,8 @@ services:
     volumes:
       - ${PATH_NEXTCLOUD_CONFIG}:/var/www/html
       - ${PATH_NEXTCLOUD}:/var/www/html/data
-    ports:
-      - 8081:80
+#    ports:
+#      - 8081:80
     environment:
       - NEXTCLOUD_DATA_DIR=/var/www/html/data
       - OVERWRITEHOST=${OVERWRITEHOST}
@@ -35,3 +35,13 @@ services:
     container_name: cloudflared-use-nextcloud
     restart: unless-stopped
     command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+  
+  nginx:
+      image: nginx:1.23.1
+      container_name: nginx
+      restart: unless-stopped
+      ports:
+        - "8081:443"
+      volumes:
+        - ./Nginxdefault.conf:/etc/nginx/conf.d/default.conf
+        - ./keydata:/etc/nginx/keydata
