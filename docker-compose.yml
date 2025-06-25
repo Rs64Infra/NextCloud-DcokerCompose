@@ -37,7 +37,7 @@ services:
     command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
   
   nginx:
-      image: nginx:1.28.0
+      image: nginx:1.29.0
       container_name: nginx-use-nextcloud
       restart: unless-stopped
       ports:
